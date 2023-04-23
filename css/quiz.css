@@ -1,0 +1,23 @@
+.container {
+    margin: 0 auto;
+    max-width: 634px;
+    
+}
+
+.question {
+    margin: 15px;
+    padding: 15px;
+    font-size: 1.2rem;
+}
+
+.choice {
+    width: 250px;
+    padding: 15px 30px;
+    margin: 15px;
+    border-radius: 30px;
+    background-color: #ddfff0;
+}
+
+.choice:hover {
+    background: #88ebcb;
+}

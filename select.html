@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>抽選アプリ</title>
+</head>
+<body>
+
+    <script>
+        // 配列：名前を保持
+        const name = ["A","B","C","D","E","F"];
+        // 配列の長さ：何名？
+        const len = name.length; 
+        // 繰り返し（人数分実行）
+        for(let i=0; i<len; i++ ){
+            // 乱数：n番目の人を取り出す
+            const r = Math.floor(Math.random()*name.length);
+            // splice：配列からn番目の人を取り出す
+            const v = name.splice(r,1);
+            // 表示
+            console.log(v);
+        }
+    </script>
+</body>
+</html>

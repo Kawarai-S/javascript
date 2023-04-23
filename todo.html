@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script text="java" src="js/jquery-3.6.4.min.js"></script>
+    <title>todoアプリ</title>
+    </head>
+<body>
+    <h1>配列:todo</h1>
+
+    <!-- ここに日時を表示させる -->
+    todo 
+    <input type="text" id="title">
+    <button id="add">add</button>
+    <div id="view"></div>
+    <!-- ここに日じを表示させる -->
+
+    <script>
+    const titles =[];
+    // 追加イベント（addボタンをクリックしたら配列に追加）
+    $("#add").on("click",function(){
+        // #viewに表示されているものはempty();削除
+        $("#view").empty();
+        // #titleのvaluesを取得する
+        const title =$("#title").val();
+        // 配列にvalueを追加（push関数）
+        titles.push(title);
+        // #viewに表示する
+        titles.map((title,i) => $("#view").prepend('<div class="delete" data-titles="'+i+'">'+titles[i]+'<div>'));
+      
+
+        // for(let i=0; i<titles.length; i++){
+        //     $("#view").prepend('<div class="delete" data-titles="'+i+'">'+titles[i]+'<div>');
+        // }
+    })
+    // 削除イベント（要素をクリックしたら消えるようにする）
+    $("div").on("click",".delete",function(){
+        // #viewの中を空っぽにする
+        $("#view").empty();
+        // 配列からひとつ削除する
+        titles.splice( $(this).attr("data-titles"), 1 )
+        // 配列の数だけデータを表示する
+        for(let i=0; i<titles.length; i++){
+            $("#view").prepend('<div class="delete" data-titles="'+i+'">'+titles[i]+'<div>');
+        }
+    })
+
+
+    </script>
+</body>
+</html>

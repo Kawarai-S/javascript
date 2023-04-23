@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <canvas id="can"></canvas>
+<script>
+    // ブロックひとつのサイズ（ピクセル）正方形なのでひとつだけ定義している
+    const block_size = 30;
+    // テトロミノのサイズ
+    const tetro_size = 4;
+
+    let can =document.getElementById("can");
+    let con =can.getContext("2d"); //描画するのにこれが必要。他ではあまり使わない。
+    // テトロミノ本体
+    let tetro = [
+        [ 0, 0, 0 ,0 ],
+        [ 1, 1, 0 ,0 ],
+        [ 0, 1, 1 ,0 ],
+        [ 0, 0, 0 ,0 ],
+    ];
+    // テトロミノの座標
+    let tetro_x = 0;
+    let tetro_y = 0;
+    
+    for(let y=0; y < tetro_size ; y++){
+        for(let x=0; x < tetro_size ; x++){
+            if(tetro[y][x]){
+                //座標を指定する
+                let px = (tetro_x + x) * block_size;
+                let py = (tetro_y + y) * block_size;
+                con.fillStyle="red";
+                con.fillRect(px,py,block_size,block_size);
+                con.strokeStyle="black";
+                con.strokeRect(px,py,block_size,block_size);
+            }
+        }
+    }
+
+    document.onkeydown = function(e){
+        //onkeydown keycode検索
+        switch(e.keyCode){
+            case 37: // 左
+                tetro_x--;
+                break;
+            case 38: // 上
+                break;
+            case 39: // 右
+                break;
+            case 40: // 下
+                break;
+            case 32: // スペース
+                break;
+        }
+    }
+
+    
+</script>    
+</body>
+</html>

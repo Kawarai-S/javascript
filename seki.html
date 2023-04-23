@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>席決めアプリ</title>
+</head>
+<body>
+<div id="seki"></div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script>
+    const member = ["月森","土浦","日野","火原","柚木","志水","衛藤","金澤","加地","冬海"];
+    const column = 3; //列を指定する数
+    let len = member.length; //配列の数
+    //繰り返し処理
+    for(let i=0; i<len; i++){
+        const r = Math.floor(Math.random() * member.length); 
+        const v = member.splice(r,1); //r番目の配列をひとつ取り出す
+        //column変数値で改行入れる
+        if((i+1)%column == 0){
+            $("#seki").append("|"+v+"<br>");
+        }else{
+            $("#seki").append("|"+v);
+        }
+    }        
+    </script>
+</body>
+</html>
