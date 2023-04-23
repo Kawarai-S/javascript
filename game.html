@@ -9,13 +9,26 @@
 <body>
     <canvas id="can"></canvas>
 <script>
+    // フィールドサイズ
+    const field_col = 10;
+    const field_row = 20;
+
     // ブロックひとつのサイズ（ピクセル）正方形なのでひとつだけ定義している
     const block_size = 30;
+    
+    //キャンバスサイズ
+    const screen_w = block_size * field_col;
+    const screen_h = block_size * field_row;
+
     // テトロミノのサイズ
     const tetro_size = 4;
 
     let can =document.getElementById("can");
     let con =can.getContext("2d"); //描画するのにこれが必要。他ではあまり使わない。
+    
+    can.width = screen_w;
+    can.height = screen_h;    
+    
     // テトロミノ本体
     let tetro = [
         [ 0, 0, 0 ,0 ],
@@ -27,19 +40,26 @@
     let tetro_x = 0;
     let tetro_y = 0;
     
-    for(let y=0; y < tetro_size ; y++){
-        for(let x=0; x < tetro_size ; x++){
-            if(tetro[y][x]){
-                //座標を指定する
-                let px = (tetro_x + x) * block_size;
-                let py = (tetro_y + y) * block_size;
-                con.fillStyle="red";
-                con.fillRect(px,py,block_size,block_size);
-                con.strokeStyle="black";
-                con.strokeRect(px,py,block_size,block_size);
+    drawTetro();
+
+    // テトロミノを表示する
+    function drawTetro(){
+        con.clearRect(0,0,screen_w,screen_h);
+        for(let y=0; y < tetro_size ; y++){
+            for(let x=0; x < tetro_size ; x++){
+                if(tetro[y][x]){
+                    //座標を指定する
+                    let px = (tetro_x + x) * block_size;
+                    let py = (tetro_y + y) * block_size;
+                    con.fillStyle="red";
+                    con.fillRect(px,py,block_size,block_size);
+                    con.strokeStyle="black";
+                    con.strokeRect(px,py,block_size,block_size);
+                }
             }
         }
     }
+    
 
     document.onkeydown = function(e){
         //onkeydown keycode検索
@@ -48,14 +68,18 @@
                 tetro_x--;
                 break;
             case 38: // 上
+                tetro_y--;
                 break;
             case 39: // 右
+                tetro_x++;
                 break;
             case 40: // 下
+                tetro_y++
                 break;
             case 32: // スペース
                 break;
         }
+        drawTetro();
     }
 
     
