@@ -5,9 +5,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <!-- <link rel="stylesheet" href="css/game.css"> -->
 </head>
 <body>
-    <canvas id="can"></canvas>
+    <div class="wrap">
+        <canvas id="can"></canvas>
+        <div id="score"></div>
+    </div>
+        
 <script>
     // 落ちるスピード
     const game_speed = 300;
@@ -104,6 +109,9 @@
     // ゲームオーバーフラグ
     let over = false;
 
+    // スコア
+    let score = 0;
+
     tetro_t = Math.floor(Math.random()*(tetro_types.length-1))+1;
     tetro = tetro_types[tetro_t];
 
@@ -153,7 +161,7 @@
         }
         if(over){
             let s ="GAME OVER";
-            con.font ="40px 'MS ゴシック'"; 
+            con.font ="40px Arial"; 
             let w =con.measureText(s).width;
             let x = screen_w/2-w/2;
             let y = screen_h/2-20; 
@@ -209,7 +217,7 @@
         }
     }
 
-    // ラインが
+    // ラインをチェックして揃ってたら消す
     function checkLine(){
         let linec = 0;
         for(let y=0; y < field_row ; y++){
@@ -229,6 +237,11 @@
                 }
             }
         }
+        // スコアの計算
+        if(linec > 0){
+            score += 100 * linec * linec;  // ライン数の二乗に10を掛けたものを加算する
+        }
+        document.getElementById('score').innerHTML = 'Score: ' + score;  // スコアを画面に表示する
     }
 
     // テトロの落ちる処理
