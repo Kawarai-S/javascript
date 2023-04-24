@@ -11,9 +11,6 @@
     <div class="wrap">
         <canvas id="can"></canvas>
         <div id="score"></div>
-        <article>
-            <audio type="audio/mpeg" src="item/bgm_classic_etc_korobushka.wav" controls></audio>
-        </article>
     </div>
         
 <script>
@@ -118,25 +115,48 @@
     tetro_t = Math.floor(Math.random()*(tetro_types.length-1))+1;
     tetro = tetro_types[tetro_t];
 
-    // // スタート画面
-    // let isStartScreen = true;
+    // スタート画面
+    let isStartScreen = true;
 
-
+    // キーイベントを追加して、スペースキーが押された時にゲームを開始するようにする
+    document.addEventListener("keydown", function(e) {
+        if (e.code === "Space" && isStartScreen) {
+            isStartScreen = false;
+            // ゲームを開始する前に、スタート画面をクリアする
+            con.clearRect(0, 0, can.width, can.height);
+            // ゲームを開始する
+            setInterval(dropTetro,game_speed);
+            // 音楽を再生する
+            playMusic();
+            }
+    });
 
     init();
     drawAll();
     
     setInterval(dropTetro,game_speed);
 
+    // スタート画面を描画する
+    function drawStartScreen() {
+        // テキストのスタイルを設定する
+        con.font = "30px Arial";
+        con.fillStyle = "#000";
+        con.textAlign = "center";
+        // テキストを描画する
+        con.fillText("Press Space to start", can.width / 2, can.height / 2);
+    }
+
     // 初期化
     function init(){
         //フィールドのクリア
         for(let y=0; y < field_row; y++){
-            field[y] = [];  //ここがわからねえ・・・
+            field[y] = [];
             for(let x=0; x < field_col; x++){
             field[y][x] = 0;
             }
         }
+        // スタート画面を描画する
+        drawStartScreen();
     }
 
     // ブロックひとつを描画する
@@ -152,6 +172,10 @@
 
     //全部を描画する    
     function drawAll(){
+        if (isStartScreen) {
+            drawStartScreen();
+            return;
+        }
         con.clearRect(0,0,screen_w,screen_h);
         for(let y=0; y < field_row ; y++){
             for(let x=0; x < field_col ; x++){
@@ -171,7 +195,7 @@
             let s ="GAME OVER";
             con.font ="40px Arial"; 
             let w =con.measureText(s).width;
-            let x = screen_w/2-w/2;
+            let x = screen_w/2;
             let y = screen_h/2-20; 
             con.lineWidth = 4;
             con.strokeText(s,x,y);
@@ -254,6 +278,10 @@
 
     // テトロの落ちる処理
     function dropTetro(){
+        // ゲームがスタート画面なら、何もしない
+        if (isStartScreen) {
+        return;
+        }
         if(over)return;
 
         if(checkMove(0,1))tetro_y++;
@@ -298,15 +326,29 @@
         drawAll();
     }
 
-    // 音楽を流す
-    window.addEventListener('DOMContentLoaded', function(){
-        const audioElement = document.querySelector("audio");
-        audioElement.addEventListener('loadeddata', (e)=> {
-            audioElement.muted = true;
-            audioElement.autoplay = true;
-            audioElement.loop = true;
+    // 音楽ファイルのURL
+    const musicURL = "item/bgm01.wav";
+
+    // Web Audio APIのコンテキストを取得
+    const audioContext = new AudioContext();
+
+    function playMusic(){
+        const request = new XMLHttpRequest();
+        request.open("GET",musicURL,true);
+        request.responseType = "arraybuffer";
+
+        request.onload = function(){
+        audioContext.decodeAudioData(request.response,function(buffer){
+            const source = audioContext.createBufferSource();
+            source.buffer = buffer;
+            source.connect(audioContext.destination);
+            source.loop = true; // ループ再生する
+            source.start(0);
         });
-    });
+    };
+
+    request.send();
+}
     
 </script>    
 </body>
