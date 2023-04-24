@@ -11,6 +11,9 @@
     <div class="wrap">
         <canvas id="can"></canvas>
         <div id="score"></div>
+        <article>
+            <audio type="audio/mpeg" src="item/bgm_classic_etc_korobushka.wav" controls></audio>
+        </article>
     </div>
         
 <script>
@@ -114,6 +117,11 @@
 
     tetro_t = Math.floor(Math.random()*(tetro_types.length-1))+1;
     tetro = tetro_types[tetro_t];
+
+    // // スタート画面
+    // let isStartScreen = true;
+
+
 
     init();
     drawAll();
@@ -290,6 +298,15 @@
         drawAll();
     }
 
+    // 音楽を流す
+    window.addEventListener('DOMContentLoaded', function(){
+        const audioElement = document.querySelector("audio");
+        audioElement.addEventListener('loadeddata', (e)=> {
+            audioElement.muted = true;
+            audioElement.autoplay = true;
+            audioElement.loop = true;
+        });
+    });
     
 </script>    
 </body>
